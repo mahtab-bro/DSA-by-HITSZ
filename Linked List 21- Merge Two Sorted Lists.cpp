@@ -7,61 +7,44 @@ Merge the two lists into one sorted list. The list should be made by splicing to
 
 Return the head of the merged linked list.
   --------------------------------------------------------------------------------------
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
-
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        // WHY: A dummy node simplifies edge cases.
-        //      We don't need to worry if the merged list is empty.
-        //      'tail' will always point to the last node of the merged list.
+        // Dummy node avoids special case for empty list
         ListNode* dummy = new ListNode(0);
+        // Tail always points to last node of merged list
         ListNode* tail = dummy;
 
-        // WHY: Loop runs while BOTH lists have nodes left to compare.
-        //      If either becomes empty, we stop comparing and just attach the rest.
+        // Loop while both lists have nodes to compare
         while (list1 != nullptr && list2 != nullptr) {
-
-            // WHY: Pick the smaller value to maintain sorted order.
-            //      If equal, either works. We pick list1 for consistency.
+            // If list1's value is smaller or equal, take from list1
             if (list1->val <= list2->val) {
-                // WHY: Attach list1's current node to the merged list.
+                // Attach list1 node to merged list
                 tail->next = list1;
-                // WHY: Move list1 forward to its next node.
+                // Move list1 forward
                 list1 = list1->next;
             } else {
-                // WHY: list2 has the smaller (or equal) value.
+                // Otherwise take from list2
                 tail->next = list2;
+                // Move list2 forward
                 list2 = list2->next;
             }
-
-            // WHY: Move tail forward to the node we just attached.
-            //      Tail always stays at the end of the merged list.
+            // Move tail to the newly attached node
             tail = tail->next;
         }
 
-        // WHY: At this point, at least one list is empty.
-        //      Attach the remaining list (if any) to tail.
-        //      If both are empty, this sets tail->next = nullptr (already null).
+        // Attach remaining nodes from whichever list is not empty
         if (list1 != nullptr) {
-            tail->next = list1;
+            tail->next = list1;  // Attach rest of list1
         } else {
-            tail->next = list2;
+            tail->next = list2;  // Attach rest of list2
         }
 
-        // WHY: dummy->next is the real head of the merged list.
-        //      We delete dummy to avoid memory leak (good practice, but LeetCode ignores it).
+        // Save the real head before deleting dummy
         ListNode* result = dummy->next;
+        // Clean up dummy node (good practice)
         delete dummy;
+        // Return the merged list head
         return result;
     }
 };
