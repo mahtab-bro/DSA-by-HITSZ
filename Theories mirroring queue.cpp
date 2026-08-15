@@ -12,3 +12,13 @@ while (!s.empty()) {
     s.pop();
 }
 // Result: original + reversed = MIRRORED!
+------------------------------------------------------------
+// When to use STACK:
+if (need to process in reverse order) use stack
+if (need to match pairs/parentheses) use stack
+if (need to undo/backtrack) use stack
+
+// When to use QUEUE:
+if (need to preserve original order) use queue
+if (need to process in arrival order) use queue
+if (need to simulate line/queue) use queue
